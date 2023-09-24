@@ -1,0 +1,54 @@
+cls
+show dbs
+use db_name
+show collections
+db.dropDatabase()
+db.createCollection("students")
+
+Insert one and insert many
+db.students.insertOne({name:"JP",age:30,gpa:4.4})
+db.students.insertMany([{name:"Ram", age:22},{name:"Jack",age:30},{name:"Pat"}])
+
+Sorting and Limiting
+db.students.find()
+db.students.find().limit(2)
+
+find methods
+d.collectionName.find({query},{projection})
+db.students.find({name:"JP",age:22})
+db.students.find({},{name:true})
+db.students.find({},{name:true,_id:false})
+
+Update methods
+db.collectionName.updateOne({filter},{update})
+db.students.updateOne({name:"Tony Stark"},{$set:{name:"Tony"}})
+db.students.updateOne({_id: ObjectId("650f0563c2c0abb5743d48f0")},{$unset:{gpa:""}})
+db.students.updateMany({},{$set:{result:"fail"}})
+db.students.updateOne({_id: ObjectId("650f05f231e0800a0c3bb868")},{$unset:{result:""}})
+
+Delete Methods
+db.students.deleteOne({_id: ObjectId("650f05f231e0800a0c3bb868")})
+db.students.deleteMany({result:'fail'})
+db.students.deleteMany({regDate:{$exists:false}})
+
+
+Comparison Operators
+db.students.find({age:{$lt:20}})
+db.students.find({age:{$gt:30}})
+db.students.find({age:{$gte:40}})
+db.students.find({age:{$gte:20,$lte:40}})
+db.students.find({age:{$in:[20,30,45]}})
+db.students.find({age:{$nin:[20,30,45]}})
+
+Logical Operators
+db.students.find({$and:[{result:'pass'},{age:{$gt:40}}]})
+db.students.find({$or:[{result:'pass'},{age:{$gt:40}}]})
+db.students.find({$nor:[{result:'pass'},{age:{$gt:40}}]})
+db.students.find({age:{$not:{$gt:40}}})
+
+Indexes
+Usual: Linear Search
+db.students.find({name:"JP"}).explain("executionStats")
+db.studnets.createIndex({name:1})
+db.studnets.createIndex({name:1})
+db.students.getIndexes()
